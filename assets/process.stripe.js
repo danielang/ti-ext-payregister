@@ -8,18 +8,25 @@
         this.stripe = null
         this.card = null
 
-        if (this.options.publishableKey === undefined)
-            throw new Error('Missing stripe publishable key')
-
         $('[name=payment][value=stripe]', this.$checkoutForm).on('change', $.proxy(this.init, this))
     }
 
     ProcessStripe.prototype.init = function () {
-        if (this.stripe !== null)
+        if (this.stripe !== null || !$(this.options.cardSelector).length)
             return
+
+        if (this.options.publishableKey === undefined)
+            throw new Error('Missing stripe publishable key')
 
         // Create a Stripe client.
         this.stripe = Stripe(this.options.publishableKey)
+
+        // Used by Stripe to identify this integration
+        this.stripe.registerAppInfo({
+            name: "TastyIgniter Stripe",
+            partner_id: 'pp_partner_JZyJnoEwlH92Fq',
+            url: 'https://tastyigniter.com/marketplace/item/igniter-payregister'
+        });
 
         // Create an instance of the card Element.
         this.card = this.stripe.elements().create('card')
@@ -34,15 +41,17 @@
     }
 
     ProcessStripe.prototype.validationErrorHandler = function (event) {
+        var $el = this.$checkoutForm.find(this.options.errorSelector)
         if (event.error) {
-            $(this.options.errorSelector).html(event.error.message);
+            $el.html(event.error.message);
         } else {
-            $(this.options.errorSelector).empty();
+            $el.empty();
         }
     }
 
     ProcessStripe.prototype.submitFormHandler = function (event) {
-        var $form = this.$checkoutForm,
+        var self = this,
+            $form = this.$checkoutForm,
             $paymentInput = $form.find('input[name="payment"]:checked')
 
         if ($paymentInput.val() !== 'stripe') return
@@ -53,7 +62,7 @@
         this.stripe.createPaymentMethod('card', this.card).then(function (result) {
             if (result.error) {
                 // Inform the user if there was an error.
-                $form.find(this.options.errorSelector).html(result.error.message);
+                self.validationErrorHandler(result)
             } else {
                 // Insert the token into the form so it gets submitted to the server
                 $form.find('input[name="stripe_payment_method"]').val(result.paymentMethod.id);
@@ -62,10 +71,11 @@
                 $form.unbind('submitCheckoutForm').submit()
             }
         });
-    },
+    }
 
     ProcessStripe.DEFAULTS = {
         publishableKey: undefined,
+        partnerId: 'pp_partner_JZyJnoEwlH92Fq',
         cardSelector: '#stripe-card-element',
         errorSelector: '#stripe-card-errors',
     }

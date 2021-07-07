@@ -1,18 +1,32 @@
 <?php
 
 return [
+    'text_this_payment' => 'this payment method',
+    'text_save_card_profile' => 'Save card details for later.',
+    'text_refund_title' => 'Refund: %s',
+    'text_refund_full' => 'Full Refund',
+    'text_refund_partial' => 'Partial Refund',
 
+    'label_order_fee_type' => 'Additional Fee Type',
+    'label_order_fee' => 'Additional Fee',
     'label_order_total' => 'Minimum Total',
     'label_order_status' => 'Order Status',
+    'label_refund_type' => 'Refund Type',
+    'label_refund_amount' => 'Refund Partial Amount',
+
+    'button_delete_card' => 'Delete or use a different card.',
+    'button_refund' => 'Refund',
 
     'alert_min_total' => 'Order total is below the minimum order total for %s.',
     'alert_min_order_total' => 'You need to spend %s or more to pay with %s.',
+    'alert_order_fee' => 'There\'s an additional fee of %s when you pay with %s.',
+    'alert_missing_applicable_fee' => 'Missing additional fee for %s payment.',
 
     'help_order_total' => 'The total amount the order must reach before this payment gateway becomes active',
+    'help_order_fee' => 'Extra charge to the order total when this payment gateway becomes active',
     'help_order_status' => 'Default order status when this payment method is used.',
 
     'cod' => [
-        '_text_title' => 'Cash On Delivery',
         'text_tab_general' => 'General',
         'text_payment_title' => 'Cash On Delivery',
         'text_payment_desc' => 'Accept cash on delivery during checkout',
@@ -23,7 +37,6 @@ return [
     ],
 
     'paypal' => [
-        '_text_title' => 'PayPal Express',
         'text_tab_general' => 'General',
         'text_payment_title' => 'PayPal Express',
         'text_payment_desc' => 'Allows your customers to make payment using PayPal',
@@ -46,7 +59,6 @@ return [
     ],
 
     'authorize_net_aim' => [
-        '_text_title' => 'Authorize.Net',
         'text_payment_title' => 'Authorize.Net (AIM)',
         'text_payment_desc' => 'Accept credit card payments though Authorize.Net',
         'text_go_live' => 'Go Live',
@@ -75,11 +87,13 @@ return [
     ],
 
     'stripe' => [
-        '_text_title' => 'Stripe',
         'text_tab_general' => 'General',
         'text_payment_title' => 'Stripe Payment',
         'text_payment_desc' => 'Accept credit card payments using Stripe',
+        'text_credit_or_debit' => 'Credit or debit card',
 
+        'text_auth_only' => 'Authorization Only',
+        'text_auth_capture' => 'Authorization & Capture',
         'text_description' => 'Pay by Credit Card using Stripe',
         'text_live' => 'Live',
         'text_test' => 'Test',
@@ -89,20 +103,21 @@ return [
         'label_title' => 'Title',
         'label_description' => 'Description',
         'label_transaction_mode' => 'Transaction Mode',
+        'label_transaction_type' => 'Transaction Type',
         'label_test_secret_key' => 'Test Secret Key',
         'label_test_publishable_key' => 'Test Publishable Key',
         'label_live_secret_key' => 'Live Secret Key',
         'label_live_publishable_key' => 'Live Publishable Key',
-        'label_force_ssl' => 'Force SSL',
         'label_priority' => 'Priority',
         'label_status' => 'Status',
     ],
 
     'mollie' => [
-        '_text_title' => 'Mollie',
         'text_payment_title' => 'Mollie Payment',
         'text_payment_desc' => 'Accept credit card payments using Mollie API',
 
+        'text_live' => 'Live',
+        'text_test' => 'Test',
         'text_description' => 'Pay by Credit Card using Mollie',
         'text_payment_status' => 'Payment %s (%s)',
 
@@ -112,7 +127,6 @@ return [
     ],
 
     'square' => [
-        '_text_title' => 'Square',
         'text_payment_title' => 'Square Payment',
         'text_payment_desc' => 'Accept credit card payments using Square',
 
