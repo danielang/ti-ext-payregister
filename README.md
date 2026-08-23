@@ -1,79 +1,38 @@
-Payment system for TastyIgniter. Allows you to accept credit card payments 
-using payment gateway supplied by this extension or others.
+<p align="center">
+    <a href="https://github.com/tastyigniter/ti-ext-payregister/actions"><img src="https://github.com/tastyigniter/ti-ext-payregister/actions/workflows/pipeline.yml/badge.svg" alt="Build Status"></a>
+    <a href="https://packagist.org/packages/tastyigniter/ti-ext-payregister"><img src="https://img.shields.io/packagist/dt/tastyigniter/ti-ext-payregister" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/tastyigniter/ti-ext-payregister"><img src="https://img.shields.io/packagist/v/tastyigniter/ti-ext-payregister" alt="Latest Stable Version"></a>
+    <a href="https://packagist.org/packages/tastyigniter/ti-ext-payregister"><img src="https://img.shields.io/packagist/l/tastyigniter/ti-ext-payregister" alt="License"></a>
+</p>
 
-A standardized way to add online payments using [Omnipay](https://omnipay.thephpleague.com/)
+## Introduction
 
-#### Available Payment Gateways:
-- Authorize Net AIM
-- Cash On Delivery
-- PayPal Express
-- Stripe
-- Mollie
-- Square
+The PayRegister extension provides a robust payment system for TastyIgniter. It allows you to accept credit card payments using various payment gateways supplied by this extension. With no setup or monthly fees.
 
-### Getting Started
-Go to **Sales > Payments** to enable and manage payments.
+## Features
 
-### Registering a new Payment Gateway
+- **Multiple Payment Gateways:** Supports a variety of payment gateways including Cash On Delivery, Authorize Net AIM, PayPal Express, Stripe, Mollie, and Square.
+- **Payment Profiles:** Save customer payment information for future transactions.
+- **Refunds:** Process refunds for payment attempts.
+- **Seamless experience:** With payment gateways like Stripe or Square, your customers can pay for their orders without leaving your website.
+- **Extensibility:** Easily add your preferred payment gateway.
 
-Here is an example of an extension registering a payment gateway.
+## Documentation
 
-```
-public function registerPaymentGateways()
-{
-    return [
-        \Igniter\Local\Payments\PayPalStandard::class => [
-            'code' => 'paypal_standard',
-            'name' => 'PayPal Standard',
-            'description' => 'Description of the payment gateway',
-        ]
-    ];
-}
-```
+Documentation can be found on the [TastyIgniter documentation website](https://tastyigniter.com/docs/extensions/payregister).
 
-**Example of a Payment Gateway Class**
+## Reporting issues
 
-A payment gateway class is responsible for handing the payment method during checkout.
+If you encounter a bug in this extension, please report it using the [Issue Tracker](https://github.com/tastyigniter/TastyIgniter/issues) on GitHub.
 
-```
-class Cod extends BasePaymentGateway
-{
-    /**
-     * Returns true if the payment type is applicable for a specified invoice amount
-     *
-     */
-    public function isApplicable($total, $host)
-    {
-        return $host->order_total <= $total;
-    }
+## Contributing
 
-    /**
-     * Processes payment using passed data.
-     *
-     * @param array $data
-     * @param \Admin\Models\Payments_model $host
-     * @param \Admin\Models\Orders_model $order
-     *
-     * @throws \ApplicationException
-     */
-    public function processPaymentForm($data, $host, $order)
-    {
-        if (!$paymentMethod = $order->payment)
-            throw new ApplicationException('Payment method not found');
+Contributions are welcome! Please read [TastyIgniter's contributing guide](https://tastyigniter.com/docs/resources/contribution-guide).
 
-        if (!$this->isApplicable($order->order_total, $host))
-            throw new ApplicationException(sprintf(
-                lang('igniter.payregister::default.alert_min_order_total'),
-                currency_format($host->order_total),
-                $host->name
-            ));
+## Security vulnerabilities
 
-        if ($order->markAsPaymentProcessed()) {
-            $order->updateOrderStatus($host->order_status, ['notify' => FALSE]);
-        }
-    }
-}
-```
+For reporting security vulnerabilities, please see [our security policy](https://github.com/tastyigniter/ti-ext-payregister/security/policy).
 
-### License
-[The MIT License (MIT)](https://tastyigniter.com/licence/)
+## License
+
+TastyIgniter Pay Register extension is open-source software licensed under the [MIT license](https://github.com/tastyigniter/ti-ext-payregister/blob/master/LICENSE.md).
